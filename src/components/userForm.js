@@ -20,15 +20,20 @@ const Wrapper = styled.div`
   border: 1px solid #cccccc;
   border-radius: 5px;
   margin-bottom: 25px;
+
+  @media (max-width: 577px) {
+    padding: 15px;
+  }
 `;
 
 const FlexRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 const StyledSpan = styled.span`
   margin-right: 16px;
+  line-height: 40px;
 `;
 
 const required = name => {
@@ -125,7 +130,7 @@ class UserForm extends Component {
               }}
             />
           </div>
-          <FlexRow>
+          <div>
             <CitizenIdField
               name="citizenID"
               form={form}
@@ -139,8 +144,8 @@ class UserForm extends Component {
                 ]
               }}
             />
-          </FlexRow>
-          <FlexRow>
+          </div>
+          <div>
             <RadioField
               name="gender"
               form={form}
@@ -150,7 +155,7 @@ class UserForm extends Component {
                 initialValue: user.gender || "Male"
               }}
             />
-          </FlexRow>
+          </div>
           <FlexRow>
             <SelectField
               form={form}
@@ -171,14 +176,14 @@ class UserForm extends Component {
                 rules: [
                   required("Mobile Phone"),
                   {
-                    pattern: /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]{8,9}$/,
+                    pattern: /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]{7,9}$/,
                     message: "Field must be valid phone number."
                   }
                 ]
               }}
             />
           </FlexRow>
-          <FlexRow>
+          <div>
             <InputField
               name="passport"
               form={form}
@@ -187,7 +192,7 @@ class UserForm extends Component {
                 initialValue: user.passport
               }}
             />
-          </FlexRow>
+          </div>
           <FlexRow>
             <InputField
               name="salary"
@@ -201,7 +206,7 @@ class UserForm extends Component {
                 rules: [required("Expected Salary")]
               }}
             />
-            <span>THB</span>
+            <StyledSpan>THB</StyledSpan>
           </FlexRow>
         </Form>
         <Button type="primary" onClick={this.handleSubmit}>

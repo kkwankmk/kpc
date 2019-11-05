@@ -114,6 +114,7 @@ class UserTable extends Component {
           columns={columns}
           rowKey="id"
           pagination={{ position: "top", itemRender: itemPaginationRender }}
+          scroll={{ x: true }}
         />
       </Wrapper>
     );

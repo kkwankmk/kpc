@@ -1,64 +1,94 @@
-import React from "react";
+import React, { Component } from "react";
 import { Form, Input } from "antd";
+import styled from "styled-components";
 
 const FormItem = Form.Item;
 
-const CitizenIdInput = ({ value = {}, onChange }) => {
-  const triggerChange = changedData => {
-    const newValue = { ...value, ...changedData };
-    onChange(newValue);
-  };
+const StyledFormItem = styled(FormItem)`
+  .ant-form-item-control-wrapper {
+    width: 80%;
 
-  return (
-    <>
-      <Input
-        maxLength={1}
-        style={{ width: "10%" }}
-        onChange={e => triggerChange({ first: e.target.value })}
-        value={value.first || undefined}
-      />
-      <span> - </span>
-      <Input
-        maxLength={4}
-        style={{ width: "10%" }}
-        onChange={e => triggerChange({ second: e.target.value })}
-        value={value.second || undefined}
-      />
-      <span> - </span>
+    @media (max-width: 575px) {
+      width: 100%;
+    }
+  }
+`;
 
-      <Input
-        maxLength={5}
-        style={{ width: "10%" }}
-        onChange={e => triggerChange({ third: e.target.value })}
-        value={value.third || undefined}
-      />
-      <span> - </span>
+class CitizenIdInput extends Component {
+  render() {
+    const { value = {}, onChange } = this.props;
 
-      <Input
-        maxLength={2}
-        style={{ width: "10%" }}
-        onChange={e => triggerChange({ fourth: e.target.value })}
-        value={value.fourth || undefined}
-      />
-      <span> - </span>
+    const triggerChange = (e, filed) => {
+      const changedData = e.target.value;
+      const newValue = { ...value, [filed]: changedData };
+      onChange(newValue);
 
-      <Input
-        maxLength={1}
-        style={{ width: "10%" }}
-        onChange={e => triggerChange({ fifth: e.target.value })}
-        value={value.fifth || undefined}
-      />
-    </>
-  );
-};
+      if (changedData.length === e.target.maxLength) {
+        const next = parseInt(e.target.id) + 1;
+        next < 6 && this.refs[next].focus();
+      }
+    };
+
+    return (
+      <>
+        <Input
+          ref={1}
+          id="1"
+          maxLength={1}
+          style={{ width: "15%" }}
+          onChange={e => triggerChange(e, "first")}
+          value={value.first || undefined}
+        />
+        <span> - </span>
+        <Input
+          ref={2}
+          id="2"
+          maxLength={4}
+          style={{ width: "15%" }}
+          onChange={e => triggerChange(e, "second")}
+          value={value.second || undefined}
+        />
+        <span> - </span>
+
+        <Input
+          ref={3}
+          id="3"
+          maxLength={5}
+          style={{ width: "15%" }}
+          onChange={e => triggerChange(e, "third")}
+          value={value.third || undefined}
+        />
+        <span> - </span>
+
+        <Input
+          ref={4}
+          id="4"
+          maxLength={2}
+          style={{ width: "15%" }}
+          onChange={e => triggerChange(e, "fourth")}
+          value={value.fourth || undefined}
+        />
+        <span> - </span>
+
+        <Input
+          ref={5}
+          id="5"
+          maxLength={1}
+          style={{ width: "15%" }}
+          onChange={e => triggerChange(e, "fifth")}
+          value={value.fifth || undefined}
+        />
+      </>
+    );
+  }
+}
 
 const CitizenIdField = ({ form, name, decorator = {}, formItemProps = {} }) => {
   const { getFieldDecorator } = form;
-
   return (
-    <FormItem {...formItemProps}>
+    <StyledFormItem {...formItemProps}>
       {getFieldDecorator(name, decorator)(<CitizenIdInput />)}
-    </FormItem>
+    </StyledFormItem>
   );
 };
 
